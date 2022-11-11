@@ -7,7 +7,7 @@ public class Building : MonoBehaviour
     [SerializeField] private float startY = 0f;
     [SerializeField] private float endY = 0f;
     [SerializeField] private Transform buildingTransform = null;
-    [SerializeField] private int timeInSec = 1;
+    [SerializeField] public int timeInSec = 1;
 
     private void Awake() {
         buildingTransform.position = new Vector3(buildingTransform.position.x, startY, buildingTransform.position.z);
