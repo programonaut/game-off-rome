@@ -13,21 +13,10 @@ public class Building : MonoBehaviour
         buildingTransform.position = new Vector3(buildingTransform.position.x, startY, buildingTransform.position.z);
     }
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     public void StartMoveBuilding() {
         StartCoroutine(MoveBuilding());
     }
+    
     // Move the building from start to end position
     IEnumerator MoveBuilding()
     {
