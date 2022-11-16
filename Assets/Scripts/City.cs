@@ -3,12 +3,15 @@ using System.Collections;
 using System.Linq;
 
 public class City : MonoBehaviour {
-    [SerializeField] private Building[] buildings = null;
+    [SerializeField] private GameObject[] cityObjects = null;
+    [SerializeField] private BuildElement[] buildings = null;
+    // [SerializeField] private Connections[] connections = null;
 
-    private float totalTime = 0f;
-    private float lastOffset = 0f;
+    [SerializeField] private float totalTime = 0f;
+    [SerializeField] private float lastOffset = 0f;
 
     private void Awake() {
+        buildings = cityObjects.Select(x => x.GetComponent<BuildElement>()).ToArray();
         totalTime = buildings.Sum(building => building.timeInSec);
     }
 
@@ -25,7 +28,7 @@ public class City : MonoBehaviour {
     }
 
     IEnumerator BuildCity() {
-        foreach ((Building building, int index) in buildings.Select((item, index) => (item, index))) {
+        foreach ((BuildElement building, int index) in buildings.Select((item, index) => (item, index))) {
             building.StartMoveBuilding();
 
             lastOffset = calculateOffset();
