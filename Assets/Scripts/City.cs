@@ -1,18 +1,25 @@
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Sirenix.OdinInspector;
 
-public class City : MonoBehaviour {
-    [SerializeField] private GameObject[] cityObjects = null;
-    [SerializeField] private BuildElement[] buildings = null;
+public class City : SerializedMonoBehaviour {
+    // Serialize two dimensional array of buildings
+    [TableMatrix()]
+    public GameObject[][] cityObjects = null;
+    [SerializeField] private BuildElement[][] buildings = null;
     // [SerializeField] private Connections[] connections = null;
 
     [SerializeField] private float totalTime = 0f;
     [SerializeField] private float lastOffset = 0f;
 
     private void Awake() {
-        buildings = cityObjects.Select(x => x.GetComponent<BuildElement>()).ToArray();
-        totalTime = buildings.Sum(building => building.timeInSec);
+        // buildings = cityObjects.Select(x => x.GetComponent<BuildElement>()).ToArray();
+        var rng = new System.Random();
+        rng.Shuffle(cityObjects);
+        buildings = cityObjects.Select(x => x.Select(y => y.GetComponent<BuildElement>()).ToArray()).ToArray();
+        // totalTime = buildings.Sum(building => building.timeInSec);
+        totalTime = buildings.Sum(building => building.Sum(build => build.timeInSec));
     }
 
     private void Start() {
@@ -28,17 +35,18 @@ public class City : MonoBehaviour {
     }
 
     IEnumerator BuildCity() {
-        foreach ((BuildElement building, int index) in buildings.Select((item, index) => (item, index))) {
-            building.StartMoveBuilding();
+        foreach ((BuildElement[] buildings, int index) in buildings.Select((item, index) => (item, index))) {
+            foreach (BuildElement building in buildings) {
+                building.StartMoveBuilding();
+                lastOffset = calculateOffset();
+                float waitTime = building.timeInSec + lastOffset;
+                if (index == buildings.Length - 1) {
+                    waitTime = totalTime;
+                }
+                totalTime -= waitTime;
 
-            lastOffset = calculateOffset();
-            float waitTime = building.timeInSec + lastOffset;
-            if (index == buildings.Length - 1) {
-                waitTime = totalTime;
+                yield return new WaitForSeconds(waitTime);
             }
-            totalTime -= waitTime;
-
-            yield return new WaitForSeconds(waitTime);
         }
     }
 }
