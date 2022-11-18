@@ -17,8 +17,11 @@ public class City : SerializedMonoBehaviour {
         // buildings = cityObjects.Select(x => x.GetComponent<BuildElement>()).ToArray();
         var rng = new System.Random();
         rng.Shuffle(cityObjects);
+        Calulate();
+    }
+
+    private void Calulate() {
         buildings = cityObjects.Select(x => x.Select(y => y.GetComponent<BuildElement>()).ToArray()).ToArray();
-        // totalTime = buildings.Sum(building => building.timeInSec);
         totalTime = buildings.Sum(building => building.Sum(build => build.timeInSec));
     }
 
@@ -26,7 +29,7 @@ public class City : SerializedMonoBehaviour {
         StartCoroutine(BuildCity());
     }
 
-    private float calculateOffset() {
+    private float CalculateOffset() {
         if (lastOffset <= 0) {
             return Random.Range(1, 11) / 10f;
         } else {
@@ -38,7 +41,7 @@ public class City : SerializedMonoBehaviour {
         foreach ((BuildElement[] buildings, int index) in buildings.Select((item, index) => (item, index))) {
             foreach (BuildElement building in buildings) {
                 building.StartMoveBuilding();
-                lastOffset = calculateOffset();
+                lastOffset = CalculateOffset();
                 float waitTime = building.timeInSec + lastOffset;
                 if (index == buildings.Length - 1) {
                     waitTime = totalTime;
