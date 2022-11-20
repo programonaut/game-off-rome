@@ -37,13 +37,17 @@ public class GameHandler : MonoBehaviour
     }
 
     public void FinishCity() {
-        isGameRunning = false;
-        Debug.Log("Finish city -> Game Over");
+        if (isGameRunning) {
+            isGameRunning = false;
+            Debug.Log("Finish city -> Game Over");
+        }
     }
 
     private void EndGame() {
-        isGameRunning = false;
-        Debug.Log("Time is over -> Game Won");
+        if (isGameRunning) {
+            isGameRunning = false;
+            Debug.Log("Time is over -> Game Won");
+        }
     }
 
     public void PauseGame() {

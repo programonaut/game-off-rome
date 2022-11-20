@@ -13,7 +13,8 @@ public class Action : ScriptableObject {
     [ReadOnly] public int buildingId;
     public Transform affectedTransform; // position to spawn the particle system (if empty use the building's transform)
     public GameObject effectParticleSystem; // most likely a particle system
-    public int slowdownAmount; // negative value to speed up
+
+    [HideIf("type", ActionType.Destroy)] public int slowdownAmount = 0; // negative value to speed up
     public int suspicionIncrease; // negative for decrease
 
     private void UpdateBuilding() {

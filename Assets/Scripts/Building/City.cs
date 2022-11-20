@@ -23,9 +23,7 @@ public class City : SerializedMonoBehaviour {
     }
 
     private void Start() {
-        var rng = new System.Random();
-        rng.Shuffle(buildings);
-
+        ShuffleBuildings();        
         buildQueue = buildings.SelectMany(x => x).ToArray();
 
         float totalTime = GameHandler.Instance.startPlayTimeInSec;
@@ -35,6 +33,16 @@ public class City : SerializedMonoBehaviour {
         timeBetweenBuildings = (totalTime - buildingBuildTimeSum) / buildingAmount;
 
         StartCoroutine(BuildCity());
+    }
+
+    private void ShuffleBuildings() {
+        var rng = new System.Random();
+
+        foreach (BuildElement[] buildElements in buildings) {
+            rng.Shuffle(buildElements);
+        }
+
+        rng.Shuffle(buildings);
     }
 
 
