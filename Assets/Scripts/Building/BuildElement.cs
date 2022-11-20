@@ -16,12 +16,10 @@ public class BuildElement : MonoBehaviour
     }
 
     public void StartMoveBuilding() {
-        Debug.Log("StartMoveBuilding");
         StartCoroutine(MoveBuilding(startY, endY, buildTimeInSec));
     }
 
     public void DestroyBuilding() {
-        Debug.Log("DestroyBuilding");
         StartCoroutine(MoveBuilding(endY, startY, destroyTimeInSec));
     }
 

@@ -5,50 +5,54 @@ using Sirenix.OdinInspector;
 
 public class City : SerializedMonoBehaviour {
     public BuildElement[][] buildings = new BuildElement[0][];
+
+    [ReadOnly] public BuildElement[] buildQueue = new BuildElement[0];
     [ReadOnly] public BuildElement[] builtBuildings = new BuildElement[0];
     // [SerializeField] private Connections[] connections = null;
 
-    [SerializeField] private float totalTime = 0f;
-    [SerializeField] private float lastOffset = 0f;
+    [ReadOnly, SerializeField] private float timeBetweenBuildings = 0f;
 
     private void Start() {
         var rng = new System.Random();
-
-        Debug.Log("Shuffle buildings");
         rng.Shuffle(buildings);
 
-        Debug.Log("Calculate total time");
-        Calculate();
-        Debug.Log("Total time: " + totalTime);
+        buildQueue = buildings.SelectMany(x => x).ToArray();
+
+        float totalTime = GameHandler.Instance.startPlayTimeInSec;
+
+        int buildingBuildTimeSum = buildings.Sum(building => building.Sum(buildingElement => buildingElement.buildTimeInSec));
+        int buildingAmount = buildings.Sum(buildingGroups => buildingGroups.Length);
+        timeBetweenBuildings = (totalTime - buildingBuildTimeSum) / buildingAmount;
+
         StartCoroutine(BuildCity());
     }
 
-    private void Calculate() {
-        totalTime = buildings.Sum(building => building.Sum(build => build.buildTimeInSec));
-    }
-
-    private float CalculateOffset() {
-        if (lastOffset <= 0) {
-            return Random.Range(1, 11) / 10f;
-        } else {
-            return -lastOffset;
-        }
-    }
 
     IEnumerator BuildCity() {
-        foreach ((BuildElement[] buildings, int index) in buildings.Select((item, index) => (item, index))) {
-            foreach (BuildElement building in buildings) {
-                building.StartMoveBuilding();
-                lastOffset = CalculateOffset();
-                float waitTime = building.buildTimeInSec + lastOffset;
-                if (index == buildings.Length - 1) {
-                    waitTime = totalTime;
-                }
-                totalTime -= waitTime;
+        while (buildQueue.Length > 0) {
+            BuildElement building = buildQueue[0];
+            building.StartMoveBuilding();
+            float waitTime = building.buildTimeInSec + timeBetweenBuildings;
 
-                yield return new WaitForSeconds(waitTime);
-                builtBuildings = builtBuildings.Append(building).ToArray();
-            }
+            yield return new WaitForSeconds(waitTime);
+            builtBuildings = builtBuildings.Append(building).ToArray();
+            buildQueue = buildQueue.Skip(1).ToArray();
         }
+        GameHandler.Instance.FinishCity();
+    }
+
+    public void DestroyBuilding(BuildElement building) {
+        Debug.Log("Destroy building");
+        BuildElement buildElement = builtBuildings.FirstOrDefault(build => build.id == building.id);
+        if (buildElement != null) {
+            buildElement.DestroyBuilding();
+            builtBuildings = builtBuildings.Where(build => build.id != building.id).ToArray();
+            StartCoroutine(ScheduleRebuild(building));
+        }
+    }
+
+    IEnumerator ScheduleRebuild(BuildElement building) {
+        yield return new WaitForSeconds(building.destroyTimeInSec);
+        buildQueue = buildQueue.Append(building).ToArray();
     }
 }

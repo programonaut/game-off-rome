@@ -27,7 +27,7 @@ public class Action : ScriptableObject {
         IncreaseSuspicion();
         switch (type) {
             case ActionType.Destroy:
-                building.DestroyBuilding();
+                DestroyBuilding();
                 break;
             case ActionType.Blockade:
                 // affectedBuilding.Blockade();
@@ -58,7 +58,7 @@ public class Action : ScriptableObject {
     }
 
     public void DestroyBuilding() {
-        affectedBuilding.DestroyBuilding();
+        FindObjectOfType<City>().DestroyBuilding(FindBuilding());
     }
 
     public void IncreaseSuspicion() {
