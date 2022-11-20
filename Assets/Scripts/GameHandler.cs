@@ -45,4 +45,12 @@ public class GameHandler : MonoBehaviour
         isGameRunning = false;
         Debug.Log("Time is over -> Game Won");
     }
+
+    public void PauseGame() {
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame() {
+        Time.timeScale = 1;
+    }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using Sirenix.OdinInspector;
 
 public class City : SerializedMonoBehaviour {
+    public static City Instance;
+
     public BuildElement[][] buildings = new BuildElement[0][];
 
     [ReadOnly] public BuildElement[] buildQueue = new BuildElement[0];
@@ -11,6 +13,14 @@ public class City : SerializedMonoBehaviour {
     // [SerializeField] private Connections[] connections = null;
 
     [ReadOnly, SerializeField] private float timeBetweenBuildings = 0f;
+
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start() {
         var rng = new System.Random();
