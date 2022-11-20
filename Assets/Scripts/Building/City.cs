@@ -4,29 +4,27 @@ using System.Linq;
 using Sirenix.OdinInspector;
 
 public class City : SerializedMonoBehaviour {
-    // Serialize two dimensional array of buildings
-    [TableMatrix()]
-    public GameObject[][] cityObjects = null;
-    [SerializeField] private BuildElement[][] buildings = null;
+    public BuildElement[][] buildings = new BuildElement[0][];
+    [ReadOnly] public BuildElement[] builtBuildings = new BuildElement[0];
     // [SerializeField] private Connections[] connections = null;
 
     [SerializeField] private float totalTime = 0f;
     [SerializeField] private float lastOffset = 0f;
 
-    private void Awake() {
-        // buildings = cityObjects.Select(x => x.GetComponent<BuildElement>()).ToArray();
-        var rng = new System.Random();
-        rng.Shuffle(cityObjects);
-        Calulate();
-    }
-
-    private void Calulate() {
-        buildings = cityObjects.Select(x => x.Select(y => y.GetComponent<BuildElement>()).ToArray()).ToArray();
-        totalTime = buildings.Sum(building => building.Sum(build => build.timeInSec));
-    }
-
     private void Start() {
+        var rng = new System.Random();
+
+        Debug.Log("Shuffle buildings");
+        rng.Shuffle(buildings);
+
+        Debug.Log("Calculate total time");
+        Calculate();
+        Debug.Log("Total time: " + totalTime);
         StartCoroutine(BuildCity());
+    }
+
+    private void Calculate() {
+        totalTime = buildings.Sum(building => building.Sum(build => build.buildTimeInSec));
     }
 
     private float CalculateOffset() {
@@ -42,13 +40,14 @@ public class City : SerializedMonoBehaviour {
             foreach (BuildElement building in buildings) {
                 building.StartMoveBuilding();
                 lastOffset = CalculateOffset();
-                float waitTime = building.timeInSec + lastOffset;
+                float waitTime = building.buildTimeInSec + lastOffset;
                 if (index == buildings.Length - 1) {
                     waitTime = totalTime;
                 }
                 totalTime -= waitTime;
 
                 yield return new WaitForSeconds(waitTime);
+                builtBuildings = builtBuildings.Append(building).ToArray();
             }
         }
     }
