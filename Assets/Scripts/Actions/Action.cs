@@ -23,6 +23,7 @@ public class Action : ScriptableObject {
     }
 
     public void Execute() {
+        Debug.Log("Executing action: " + name);
         Building building = FindBuilding();
         IncreaseSuspicion();
         switch (type) {
