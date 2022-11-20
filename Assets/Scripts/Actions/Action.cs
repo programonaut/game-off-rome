@@ -27,6 +27,7 @@ public class Action : ScriptableObject {
         IncreaseSuspicion();
         switch (type) {
             case ActionType.Destroy:
+                SpawnEffect();
                 City.Instance.DestroyBuilding(building);
                 break;
             case ActionType.Blockade:
@@ -60,5 +61,11 @@ public class Action : ScriptableObject {
     public void IncreaseSuspicion() {
         SuspicousnessSystem suspicousnessSystem = SuspicousnessSystem.Instance;
         suspicousnessSystem?.IncreaseSuspicousness(suspicionIncrease);
+    }
+
+    public void SpawnEffect() {
+        if (effectParticleSystem != null && affectedTransform != null) {
+            Instantiate(effectParticleSystem, affectedTransform.position, Quaternion.identity);
+        }
     }
 }
