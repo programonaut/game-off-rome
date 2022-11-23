@@ -16,6 +16,7 @@ MonoBehaviour:
   affectedBuilding: {fileID: 0}
   buildingId: 1
   affectedTransform: {fileID: 0}
+  spawnPosition: {x: -40.79, y: 0, z: -559.215}
   effectParticleSystem: {fileID: 4597791351495110595, guid: de1473276babff440b275d8fce4b882f, type: 3}
-  slowdownAmount: 10
+  slowdownAmount: 6
   suspicionIncrease: 20

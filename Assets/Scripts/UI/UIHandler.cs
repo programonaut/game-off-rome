@@ -5,15 +5,20 @@ using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
+    public static UIHandler Instance;
+
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI buildingsLeftText;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Transform cardHolder;
 
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
