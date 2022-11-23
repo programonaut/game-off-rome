@@ -26,7 +26,7 @@ public class GameHandler : MonoBehaviour
         set {
             currentPlayTimeInSec = value;
             if (currentPlayTimeInSec > maxPlayTimeInSec)
-                EndGame();
+                WonGame();
         }
     }
 
@@ -49,17 +49,19 @@ public class GameHandler : MonoBehaviour
         CurrentPlayTimeInSec += Time.deltaTime;
     }
 
-    public void FinishCity() {
+    public void LostGame() {
         if (isGameRunning) {
             isGameRunning = false;
             Debug.Log("Finish city -> Game Over");
+            PauseGame();
         }
     }
 
-    private void EndGame() {
+    private void WonGame() {
         if (isGameRunning) {
             isGameRunning = false;
             Debug.Log("Time is over -> Game Won");
+            PauseGame();
         }
     }
 
@@ -74,8 +76,8 @@ public class GameHandler : MonoBehaviour
     IEnumerator SpawnCards() {
         while (isGameRunning) {
             yield return new WaitForSeconds(cardInterval);
-            CardSystem.Instance.SpawnCards();
-            PauseGame();
+            if (CardSystem.Instance.SpawnCards())
+                PauseGame();
         }
     }
 

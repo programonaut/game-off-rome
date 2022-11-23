@@ -9,7 +9,7 @@ public class City : SerializedMonoBehaviour {
     public BuildElement[][] buildings = new BuildElement[0][];
     public bool randomize = true;
 
-    [ReadOnly] public BuildElement[] buildQueue = new BuildElement[0];
+    public BuildElement[] buildQueue = new BuildElement[0];
     [ReadOnly] public BuildElement[] builtBuildings = new BuildElement[0];
     // [SerializeField] private Connections[] connections = null;
 
@@ -58,7 +58,7 @@ public class City : SerializedMonoBehaviour {
             builtBuildings = builtBuildings.Append(building).ToArray();
             buildQueue = buildQueue.Skip(1).ToArray();
         }
-        GameHandler.Instance.FinishCity();
+        GameHandler.Instance.LostGame();
     }
 
     public void DestroyBuilding(BuildElement building) {

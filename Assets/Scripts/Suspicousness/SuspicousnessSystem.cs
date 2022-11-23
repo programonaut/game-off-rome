@@ -32,9 +32,12 @@ public class SuspicousnessSystem : MonoBehaviour
         }
     }
 
-    public void Caught() 
+    public bool Caught() 
     {
+        int catchPercentage = GetCatchPercentage();
+        int random = Random.Range(0, 100 + 1);
 
+        return catchPercentage == 0 ? false : random <= catchPercentage;
     }
 
     public int GetCatchPercentage() 

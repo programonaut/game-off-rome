@@ -23,7 +23,8 @@ public class CardSystem : MonoBehaviour
         }
     }
 
-    public void SpawnCards() {
+    // resturn true if more than 0 cards were spawned
+    public bool SpawnCards() {
         List<CardObject> cardsToSpawn = new List<CardObject>();
         for (int i = 0; i < cards.Count; i++) {
             CardObject card = cards[i];
@@ -39,6 +40,8 @@ public class CardSystem : MonoBehaviour
             // index is always 0 because we remove the card from the list after we spawn it
             SpawnCard(cardsToSpawn[i], cardOffsets[i]);
         }
+
+        return cardsToSpawn.Count > 0;
     }
 
     private void SpawnCard(CardObject cardObject, int offset) {

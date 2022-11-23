@@ -60,8 +60,8 @@ public class Action : ScriptableObject {
 
     public void Execute() {
         Debug.Log("Executing action: " + name);
+
         Building building = FindBuilding();
-        IncreaseSuspicion();
         switch (type) {
             case ActionType.Destroy:
                 SpawnEffect();
@@ -73,6 +73,15 @@ public class Action : ScriptableObject {
         }
 
         GameHandler.Instance.PlayCard();
+
+        // check if caught
+        if (SuspicousnessSystem.Instance.Caught()){
+            Debug.Log("Caught");
+            GameHandler.Instance.LostGame();
+        }
+
+        // if not increase suspicion by defined value
+        SuspicousnessSystem.Instance.IncreaseSuspicousness(suspicionIncrease);
     }
 
     public Building FindBuilding() {
@@ -98,11 +107,6 @@ public class Action : ScriptableObject {
                 }
         }
         return false;
-    }
-
-    public void IncreaseSuspicion() {
-        SuspicousnessSystem suspicousnessSystem = SuspicousnessSystem.Instance;
-        suspicousnessSystem?.IncreaseSuspicousness(suspicionIncrease);
     }
 
     public void SpawnEffect() {
