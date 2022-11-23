@@ -7,6 +7,7 @@ public class City : SerializedMonoBehaviour {
     public static City Instance;
 
     public BuildElement[][] buildings = new BuildElement[0][];
+    public bool randomize = true;
 
     [ReadOnly] public BuildElement[] buildQueue = new BuildElement[0];
     [ReadOnly] public BuildElement[] builtBuildings = new BuildElement[0];
@@ -23,7 +24,8 @@ public class City : SerializedMonoBehaviour {
     }
 
     private void Start() {
-        ShuffleBuildings();        
+        if (randomize)
+            ShuffleBuildings();        
         buildQueue = buildings.SelectMany(x => x).ToArray();
 
         float totalTime = GameHandler.Instance.startPlayTimeInSec;

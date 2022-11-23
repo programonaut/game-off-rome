@@ -9,6 +9,8 @@ public enum ActionType {
 public class Action : ScriptableObject {
     [OnValueChanged("UpdateBuilding")]
     public ActionType type;
+
+    [SerializeField] private bool needsToBeBuild = true;
     [OnValueChanged("UpdateBuilding")]
     public Building affectedBuilding;
     [ReadOnly] public int buildingId;
@@ -27,6 +29,9 @@ public class Action : ScriptableObject {
             buildingId = affectedBuilding.id;
             affectedTransform = affectedBuilding.transform;
             spawnPosition = affectedTransform.position;
+            needsToBeBuild = true;
+        } else {
+            needsToBeBuild = false;
         }
         CalculateExtraTime();
     }
@@ -81,6 +86,9 @@ public class Action : ScriptableObject {
     }
 
     public bool CheckIfBuilt() {
+        if(!needsToBeBuild)
+            return true;
+
         BuildElement[] builtBuildings = City.Instance.builtBuildings;
         foreach (BuildElement building in builtBuildings) {
                 if (building.id == buildingId) {

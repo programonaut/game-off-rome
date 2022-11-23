@@ -12,5 +12,5 @@ public class CardObject : ScriptableObject {
     public Sprite cardFrame;
 
     [Title("Card Action")]
-    [InlineEditor(InlineEditorObjectFieldModes.Hidden)] public Action action;
+    [InlineEditor(InlineEditorObjectFieldModes.Foldout)] public Action action;
 }
