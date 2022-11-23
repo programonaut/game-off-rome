@@ -71,6 +71,8 @@ public class Action : ScriptableObject {
                 // affectedBuilding.Blockade();
                 break;
         }
+
+        GameHandler.Instance.PlayCard();
     }
 
     public Building FindBuilding() {

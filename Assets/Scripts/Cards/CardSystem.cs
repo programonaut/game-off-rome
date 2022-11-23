@@ -23,12 +23,7 @@ public class CardSystem : MonoBehaviour
         }
     }
 
-    private void Start() {
-        StartCoroutine(Test());
-    }
-
     public void SpawnCards() {
-        RemoveCards();
         List<CardObject> cardsToSpawn = new List<CardObject>();
         for (int i = 0; i < cards.Count; i++) {
             CardObject card = cards[i];
@@ -39,8 +34,6 @@ public class CardSystem : MonoBehaviour
             if (cardsToSpawn.Count == maxCards)
                 break;
         }
-
-        Debug.Log("Spawning " + cardsToSpawn.Count + " cards");
 
         for (int i = 0; i < cardsToSpawn.Count; i++) {
             // index is always 0 because we remove the card from the list after we spawn it
@@ -61,7 +54,7 @@ public class CardSystem : MonoBehaviour
         cards.Remove(cardObject);
     }
 
-    private void RemoveCards() {
+    public void RemoveCards() {
         foreach (Card card in cardInstances) {
             Destroy(card.gameObject);
         }
@@ -73,10 +66,5 @@ public class CardSystem : MonoBehaviour
         cards.Remove(card.card);
         cardInstances.Remove(card);
         Destroy(card.gameObject);
-    }
-
-    IEnumerator Test() {
-        yield return new WaitForSeconds(1);
-        SpawnCards();
     }
 }

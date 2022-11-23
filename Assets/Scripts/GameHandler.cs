@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
+
     public static GameHandler Instance;
 
+    [Title("Debug Settings")]
+    [SerializeField] private bool spawnCards = true;
+
+    [Title("Game Settings")]
     public bool isGameRunning = true;
 
+    [OnValueChanged("CalculateCardInterval")]
     public int maxPlayTimeInSec = 60;
     public int startPlayTimeInSec = 40;
 
@@ -23,12 +30,18 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    [ReadOnly] public float cardInterval = 0;
+    [Button("Set Card Interval")]
+    public void CalculateCardInterval() { cardInterval = maxPlayTimeInSec / 12f; } // 12 = cards every 2 hours
+
     public void Awake() {
         if (Instance == null) {
             Instance = this;
         } else {
             Destroy(gameObject);
         }
+        if (spawnCards)
+            StartCoroutine(SpawnCards());
     }
 
     void Update()
@@ -56,5 +69,18 @@ public class GameHandler : MonoBehaviour
 
     public void ResumeGame() {
         Time.timeScale = 1;
+    }
+
+    IEnumerator SpawnCards() {
+        while (isGameRunning) {
+            yield return new WaitForSeconds(cardInterval);
+            CardSystem.Instance.SpawnCards();
+            PauseGame();
+        }
+    }
+
+    public void PlayCard() {
+        ResumeGame();
+        CardSystem.Instance.RemoveCards();
     }
 }
