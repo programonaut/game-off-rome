@@ -21,7 +21,7 @@ public class Action : ScriptableObject {
 
     public GameObject effectParticleSystem; // most likely a particle system
 
-    [DisableIf("type", ActionType.Destroy)] public int slowdownAmount = 0; // negative value to speed up
+    [DisableIf("type", ActionType.Destroy)] public float slowdownAmount = 0; // negative value to speed up
     public int suspicionIncrease; // negative for decrease
 
     private void UpdateBuilding() {

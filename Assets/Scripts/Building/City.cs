@@ -30,7 +30,7 @@ public class City : SerializedMonoBehaviour {
 
         float totalTime = GameHandler.Instance.startPlayTimeInSec;
 
-        int buildingBuildTimeSum = buildings.Sum(building => building.Sum(buildingElement => buildingElement.buildTimeInSec));
+        float buildingBuildTimeSum = buildings.Sum(building => building.Sum(buildingElement => buildingElement.buildTimeInSec));
         int buildingAmount = buildings.Sum(buildingGroups => buildingGroups.Length);
         timeBetweenBuildings = (totalTime - buildingBuildTimeSum) / buildingAmount;
 

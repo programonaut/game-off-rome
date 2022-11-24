@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class BuildElement : MonoBehaviour
 {
@@ -8,8 +9,12 @@ public class BuildElement : MonoBehaviour
     [SerializeField] private float startY = 0f;
     [SerializeField] private float endY = 0f;
     [SerializeField] private Transform buildingTransform = null;
-    [SerializeField] public int buildTimeInSec = 1;
-    [SerializeField] public int destroyTimeInSec = 1;
+    [SerializeField] public float buildTimeInSec = 1;
+    [SerializeField] public float destroyTimeInSec = 1;
+    [Button]
+    void SetChildTransform() {
+        buildingTransform = transform.GetChild(0);
+    }
 
     private void Awake() {
         buildingTransform.position = new Vector3(buildingTransform.position.x, startY, buildingTransform.position.z);
