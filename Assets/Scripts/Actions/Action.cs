@@ -1,5 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
 
 public enum ActionType {
     Destroy,
@@ -73,6 +75,8 @@ public class Action : ScriptableObject {
         }
 
         GameHandler.Instance.PlayCard();
+        if (slowdownAmount > 0)
+            City.Instance.PauseBuilding(slowdownAmount);
 
         // check if caught
         if (SuspicousnessSystem.Instance.Caught()){
@@ -85,9 +89,9 @@ public class Action : ScriptableObject {
     }
 
     public Building FindBuilding() {
-        BuildElement[][] groupedCityBuildings = City.Instance.buildings;
-        foreach (BuildElement[] buildings in groupedCityBuildings) {
-            foreach (BuildElement building in buildings) {
+        BuildData[] groupedCityBuildings = City.Instance.buildings;
+        foreach (BuildData group in groupedCityBuildings) {
+            foreach (BuildElement building in group.buildElements) {
                 if (building.id == buildingId) {
                     return building.GetComponent<Building>();
                 }

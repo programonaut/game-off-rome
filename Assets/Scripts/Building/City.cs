@@ -3,10 +3,19 @@ using System.Collections;
 using System.Linq;
 using Sirenix.OdinInspector;
 
+public struct BuildData {
+    public string name;
+    public BuildElement[] buildElements;
+}
+
 public class City : SerializedMonoBehaviour {
     public static City Instance;
 
-    public BuildElement[][] buildings = new BuildElement[0][];
+    [ListDrawerSettings(ShowIndexLabels = true, CustomAddFunction = "CustomAddFunction")]
+    public BuildData[] buildings = new BuildData[1];
+        [ListDrawerSettings(ShowIndexLabels = true)]
+    public BuildElement[][] temp = new BuildElement[0][];
+    public BuildElement[][] temp2 = new BuildElement[0][];
     public bool randomize = true;
 
     public BuildElement[] buildQueue = new BuildElement[0];
@@ -14,6 +23,31 @@ public class City : SerializedMonoBehaviour {
     // [SerializeField] private Connections[] connections = null;
 
     [ReadOnly, SerializeField] private float timeBetweenBuildings = 0f;
+    public bool pauseBuilding = false;
+
+    private BuildData CustomAddFunction() {
+        BuildData data = new BuildData();
+        data.name = "";
+        data.buildElements = new BuildElement[0];
+        return data;
+    }
+
+    // [Button]
+    private void Rearrange() {
+        for (int i = 0; i < temp.Length; i++) {
+            for (int j = 0; j < buildings.Length; j++)
+            {
+                BuildData item = buildings[j];
+
+                if (item.name == i.ToString()) {
+                    item.buildElements = temp[i].Clone() as BuildElement[];
+                    Debug.Log("Found " + i.ToString());
+                }
+
+                buildings[j] = item;
+            }
+        }
+    }
 
     private void Awake() {
         if (Instance == null) {
@@ -26,13 +60,7 @@ public class City : SerializedMonoBehaviour {
     private void Start() {
         if (randomize)
             ShuffleBuildings();        
-        buildQueue = buildings.SelectMany(x => x).ToArray();
-
-        float totalTime = GameHandler.Instance.startPlayTimeInSec;
-
-        float buildingBuildTimeSum = buildings.Sum(building => building.Sum(buildingElement => buildingElement.buildTimeInSec));
-        int buildingAmount = buildings.Sum(buildingGroups => buildingGroups.Length);
-        timeBetweenBuildings = (totalTime - buildingBuildTimeSum) / buildingAmount;
+        buildQueue = buildings.SelectMany(group => group.buildElements).ToArray();
 
         StartCoroutine(BuildCity());
     }
@@ -40,8 +68,8 @@ public class City : SerializedMonoBehaviour {
     private void ShuffleBuildings() {
         var rng = new System.Random();
 
-        foreach (BuildElement[] buildElements in buildings) {
-            rng.Shuffle(buildElements);
+        foreach (BuildData data in buildings) {
+            rng.Shuffle(data.buildElements);
         }
 
         rng.Shuffle(buildings);
@@ -50,13 +78,18 @@ public class City : SerializedMonoBehaviour {
 
     IEnumerator BuildCity() {
         while (buildQueue.Length > 0) {
-            BuildElement building = buildQueue[0];
-            building.StartMoveBuilding();
-            float waitTime = building.buildTimeInSec + timeBetweenBuildings;
+            if (!pauseBuilding) {
+                BuildElement building = buildQueue[0];
+                building.StartMoveBuilding();
+                float waitTime = building.buildTimeInSec - (building.buildTimeInSec / 2);
 
-            yield return new WaitForSeconds(waitTime);
-            builtBuildings = builtBuildings.Append(building).ToArray();
-            buildQueue = buildQueue.Skip(1).ToArray();
+                yield return new WaitForSeconds(waitTime);
+                builtBuildings = builtBuildings.Append(building).ToArray();
+                buildQueue = buildQueue.Skip(1).ToArray();
+            }
+            else {
+                yield return new WaitForSeconds(0.1f);
+            }
         }
         GameHandler.Instance.LostGame();
     }
@@ -74,5 +107,14 @@ public class City : SerializedMonoBehaviour {
     IEnumerator ScheduleRebuild(BuildElement building) {
         yield return new WaitForSeconds(building.destroyTimeInSec);
         buildQueue = buildQueue.Append(building).ToArray();
+    }
+
+    public void PauseBuilding(float time) {
+        pauseBuilding = true;
+        StartCoroutine(WaitTime(time));
+        pauseBuilding = false;
+    }
+    IEnumerator WaitTime(float time) {
+        yield return new WaitForSeconds(time);
     }
 }

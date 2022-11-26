@@ -148,6 +148,6 @@ MonoBehaviour:
   id: 0
   startY: -8
   endY: 0
-  buildingTransform: {fileID: 9009148824990135925, guid: 32d5e06389e2b9346ad0af6b5b3888be, type: 3}
-  buildTimeInSec: 5
+  buildingTransform: {fileID: 3536880994759183416}
+  buildTimeInSec: 2
   destroyTimeInSec: 1

@@ -13,11 +13,17 @@ public class BuildElement : MonoBehaviour
     [SerializeField] public float destroyTimeInSec = 1;
     [Button]
     void SetChildTransform() {
-        buildingTransform = transform.GetChild(0);
+        // iterate over all children and find the first active object
+        for (int i = 0; i < transform.childCount; i++) {
+            if (transform.GetChild(i).gameObject.activeSelf) {
+                buildingTransform = transform.GetChild(i);
+                break;
+            }
+        }
     }
 
     private void Awake() {
-        buildingTransform.position = new Vector3(buildingTransform.position.x, startY, buildingTransform.position.z);
+        buildingTransform.localPosition = new Vector3(buildingTransform.localPosition.x, startY, buildingTransform.localPosition.z);
     }
 
     public void StartMoveBuilding() {
@@ -34,7 +40,7 @@ public class BuildElement : MonoBehaviour
         float elapsedTime = 0;
         while (elapsedTime < timeInSec)
         {
-            buildingTransform.position = new Vector3(buildingTransform.position.x, Mathf.Lerp(startY, endY, (elapsedTime / timeInSec)), buildingTransform.position.z);
+            buildingTransform.localPosition = new Vector3(buildingTransform.localPosition.x, Mathf.Lerp(startY, endY, (elapsedTime / timeInSec)), buildingTransform.localPosition.z);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

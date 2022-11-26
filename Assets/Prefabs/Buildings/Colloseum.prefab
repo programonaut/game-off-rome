@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbaecb8941ce844ab55e81acd5403e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  startY: -0.5
-  endY: 0.4
-  buildingTransform: {fileID: 0}
-  buildTimeInSec: 1
+  id: 1
+  startY: -22
+  endY: 0
+  buildingTransform: {fileID: 5946338191841082895}
+  buildTimeInSec: 10
   destroyTimeInSec: 1
 --- !u!1001 &3820606407630208821
 PrefabInstance:
@@ -68,15 +68,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7458003166456938810, guid: 6b2b110228d2fe042bcc081cf0e2afe8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.04
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 7458003166456938810, guid: 6b2b110228d2fe042bcc081cf0e2afe8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.04
+      value: 0.049999997
       objectReference: {fileID: 0}
     - target: {fileID: 7458003166456938810, guid: 6b2b110228d2fe042bcc081cf0e2afe8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.04
+      value: 0.049999997
       objectReference: {fileID: 0}
     - target: {fileID: 7458003166456938810, guid: 6b2b110228d2fe042bcc081cf0e2afe8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -120,7 +120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7458003166456938810, guid: 6b2b110228d2fe042bcc081cf0e2afe8, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b2b110228d2fe042bcc081cf0e2afe8, type: 3}
