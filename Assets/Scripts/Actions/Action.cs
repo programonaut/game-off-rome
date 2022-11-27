@@ -15,7 +15,7 @@ public class Action : ScriptableObject {
     [SerializeField] private bool needsToBeBuild = true;
     [OnValueChanged("UpdateBuilding")]
     public Building affectedBuilding;
-    [ReadOnly] public int buildingId;
+    [Tooltip("Can be automatically be assigned by dragging building")] public int buildingId;
 
     [OnValueChanged("UpdateSpawnPosition")]
     public Transform affectedTransform; // position to spawn the particle system (if empty use the building's transform)
