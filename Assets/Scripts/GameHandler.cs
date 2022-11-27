@@ -84,8 +84,10 @@ public class GameHandler : MonoBehaviour
     }
 
     IEnumerator SpawnCards() {
+        Debug.Log("Start spawning cards");
         while (isGameRunning) {
             yield return new WaitForSeconds(cardInterval);
+            Debug.Log("Spawn card");
             if (CardSystem.Instance.SpawnCards())
                 PauseGame();
         }

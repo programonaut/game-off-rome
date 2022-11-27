@@ -110,11 +110,11 @@ public class City : SerializedMonoBehaviour {
     }
 
     public void PauseBuilding(float time) {
-        pauseBuilding = true;
         StartCoroutine(WaitTime(time));
-        pauseBuilding = false;
     }
     IEnumerator WaitTime(float time) {
+        pauseBuilding = true;
         yield return new WaitForSeconds(time);
+        pauseBuilding = false;
     }
 }
