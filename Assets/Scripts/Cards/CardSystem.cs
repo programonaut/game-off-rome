@@ -28,7 +28,7 @@ public class CardSystem : MonoBehaviour
         List<CardObject> cardsToSpawn = new List<CardObject>();
         for (int i = 0; i < cards.Count; i++) {
             CardObject card = cards[i];
-            if (card.action.CheckIfBuilt()) {
+            if (card.CheckIfBuilt()) {
                 cardsToSpawn.Add(card);
             }
 
