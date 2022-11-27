@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum SuspicousnessAmountType {
+    Low,
+    Medium,
+    High,
+    Super
+}
+
 public class SuspicousnessSystem : MonoBehaviour
 {
     public static SuspicousnessSystem Instance { get; private set; }
@@ -8,6 +15,8 @@ public class SuspicousnessSystem : MonoBehaviour
     public int Suspicousness { get => suspicousness; }
 
     private int suspiciosnessFrame = 30;
+    public int[] suspiciosnessValues = {5,10,15,25};
+
 
     private void Awake()
     {

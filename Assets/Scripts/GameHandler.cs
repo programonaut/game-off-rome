@@ -33,6 +33,8 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    public float[] slowdownAmountValues = {5,10,15,25};
+
     [ReadOnly] public float cardInterval = 0;
     [Button("Set Card Interval")]
     public void CalculateCardInterval() { cardInterval = maxPlayTimeInSec / 12f; } // 12 = cards every 2 hours

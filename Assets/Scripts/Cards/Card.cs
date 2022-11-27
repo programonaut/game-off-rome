@@ -31,7 +31,7 @@ public class Card : MonoBehaviour
         cardNameText.text = card.cardName;
         cardDescriptionText.text = card.cardDescription;
         suspicionIncreaseText.text = card.suspicionIncrease.ToString();
-        slowdownAmountText.text = card.slowdownAmount.ToString();
+        slowdownAmountText.text = card.slowdownAmountType.ToString();
 
         // set card button action
         cardButton.onClick.AddListener(card.Execute);

@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 public class CardSystem : MonoBehaviour
@@ -21,6 +24,12 @@ public class CardSystem : MonoBehaviour
         } else {
             Destroy(gameObject);
         }
+
+        var rng = new System.Random();
+
+        CardObject[] cardArray = cards.ToArray();
+        rng.Shuffle<CardObject>(cardArray);
+        cards = new List<CardObject>(cardArray);
     }
 
     // resturn true if more than 0 cards were spawned
@@ -70,4 +79,38 @@ public class CardSystem : MonoBehaviour
         cardInstances.Remove(card);
         Destroy(card.gameObject);
     }
+
+
+    [SerializeField] private List<CardData> cardNames = new List<CardData>();
+    [Button]
+    private void CreatCardObjectsFromList() {
+        int index = 1;
+        foreach (var cardData in cardNames) {
+            int amount = cardData.amount == 0 ? 1 : cardData.amount;
+            
+            for (int i = 0; i < amount; i++)
+            {
+                CardObject card = ScriptableObject.CreateInstance<CardObject>();
+                card.cardName = cardData.name;
+                if (cardData.id != 0)
+                    card.needsToBeBuild = true;
+                card.buildingId = cardData.id;
+                
+                string path = $"Assets/_Cards/{index}_{cardData.name}.asset";
+                cards.Add(card);
+
+                AssetDatabase.CreateAsset(card, path);
+                index++;
+            }
+        }
+
+    }
+}
+
+[Serializable]
+struct CardData {
+    public string name;
+    public int id;
+    public ActionType type;
+    public int amount;
 }

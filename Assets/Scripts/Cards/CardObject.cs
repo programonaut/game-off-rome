@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 public enum ActionType {
+    Other,
     Destroy,
-    Blockade
+}
+
+public enum SlowAmountType {
+    Low = 0,
+    Medium = 1,
+    High = 2,
+    Super = 3
 }
 
 [CreateAssetMenu(fileName = "Card", menuName = "Card", order = 0)]
@@ -19,7 +26,7 @@ public class CardObject : ScriptableObject {
         [OnValueChanged("UpdateBuilding")]
     public ActionType type;
 
-    [SerializeField] private bool needsToBeBuild = true;
+    [SerializeField] public bool needsToBeBuild = true;
     [OnValueChanged("UpdateBuilding")]
     public Building affectedBuilding;
     [Tooltip("Can be automatically be assigned by dragging building")] public int buildingId;
@@ -30,8 +37,9 @@ public class CardObject : ScriptableObject {
 
     public GameObject effectParticleSystem; // most likely a particle system
 
-    [DisableIf("type", ActionType.Destroy)] public float slowdownAmount = 0; // negative value to speed up
-    public int suspicionIncrease; // negative for decrease
+    public SlowAmountType slowdownAmountType = SlowAmountType.Medium; // negative value to speed up
+    public SuspicousnessAmountType suspicionIncrease = SuspicousnessAmountType.Medium; // negative for decrease
+    public bool goodCard = false;
 
     private void UpdateBuilding() {
         if (affectedBuilding != null) {
@@ -42,7 +50,6 @@ public class CardObject : ScriptableObject {
         } else {
             needsToBeBuild = false;
         }
-        CalculateExtraTime();
     }
 
     private void UpdateSpawnPosition() {
@@ -57,42 +64,40 @@ public class CardObject : ScriptableObject {
         }
     }
 
-    public void CalculateExtraTime() {
-        if (affectedBuilding != null && type == ActionType.Destroy) {
-            BuildElement buildElement = affectedBuilding.GetComponent<BuildElement>();
-            slowdownAmount = buildElement.buildTimeInSec + buildElement.destroyTimeInSec;
-        }
-        else if (affectedBuilding == null && type == ActionType.Destroy) {
-            slowdownAmount = 0;
-        }
-    }
-
     public void Execute() {
         Debug.Log("Executing action: " + name);
 
-        Building building = FindBuilding();
-        switch (type) {
-            case ActionType.Destroy:
-                SpawnEffect();
-                City.Instance.DestroyBuilding(building);
-                break;
-            case ActionType.Blockade:
-                // affectedBuilding.Blockade();
-                break;
+        if (!goodCard) {
+            Building building = FindBuilding();
+            switch (type) {
+                case ActionType.Destroy:
+                    SpawnEffect();
+                    City.Instance.DestroyBuilding(building);
+                    break;
+                case ActionType.Other:
+                    // affectedBuilding.Blockade();
+                    break;
+            }
+
+            // check if caught
+            if (SuspicousnessSystem.Instance.Caught()){
+                Debug.Log("Caught");
+                GameHandler.Instance.LostGame();
+            }
+
+            // if not increase suspicion by defined value
+            SuspicousnessSystem.Instance.IncreaseSuspicousness(SuspicousnessSystem.Instance.suspiciosnessValues[(int)suspicionIncrease]);
+            float slowdownAmount = GameHandler.Instance.slowdownAmountValues[(int)slowdownAmountType];
+            if (slowdownAmount > 0)
+                City.Instance.PauseBuilding(slowdownAmount);
+        }
+        else {
+            SuspicousnessSystem.Instance.IncreaseSuspicousness(-SuspicousnessSystem.Instance.suspiciosnessValues[(int)suspicionIncrease]);
+            Debug.Log($"{GameHandler.Instance.CurrentPlayTimeInSec}, {GameHandler.Instance.slowdownAmountValues[(int)slowdownAmountType]}");
+            GameHandler.Instance.CurrentPlayTimeInSec = GameHandler.Instance.CurrentPlayTimeInSec - GameHandler.Instance.slowdownAmountValues[(int)slowdownAmountType];
         }
 
         GameHandler.Instance.PlayCard();
-        if (slowdownAmount > 0)
-            City.Instance.PauseBuilding(slowdownAmount);
-
-        // check if caught
-        if (SuspicousnessSystem.Instance.Caught()){
-            Debug.Log("Caught");
-            GameHandler.Instance.LostGame();
-        }
-
-        // if not increase suspicion by defined value
-        SuspicousnessSystem.Instance.IncreaseSuspicousness(suspicionIncrease);
     }
 
     public Building FindBuilding() {
