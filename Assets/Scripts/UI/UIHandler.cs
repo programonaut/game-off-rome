@@ -29,9 +29,6 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timeText != null)
-            timeText.text = $"{Mathf.RoundToInt(GameHandler.Instance.CurrentPlayTimeInSec)}/{Mathf.RoundToInt(GameHandler.Instance.maxPlayTimeInSec)}";
-
         if (buildingsLeftText != null)
             buildingsLeftText.text = $"{City.Instance.buildQueue.Count}";
 
@@ -55,6 +52,12 @@ public class UIHandler : MonoBehaviour
         float maxRot = -360;
 
         clockPointer.localRotation = Quaternion.Euler(0, 0, maxRot * perc);
+
+        var hours = Mathf.FloorToInt(currentTime / maxTime * 24);
+        var minutes = Mathf.FloorToInt(((currentTime / maxTime * 24) - hours) * 60);
+        var preHour = hours < 10 ? "0" : "";
+        var preMinute = minutes < 10 ? "0" : "";
+        timeText.text = $"{preHour}{hours}:{preMinute}{minutes}";
     }
 
     public void UpdateSuspicion() {
