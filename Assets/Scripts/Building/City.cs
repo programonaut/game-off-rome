@@ -21,9 +21,6 @@ public class City : SerializedMonoBehaviour {
 
     public List<BuildElement> buildQueue = new List<BuildElement>();
     [ReadOnly] public BuildElement[] builtBuildings = new BuildElement[0];
-    // [SerializeField] private Connections[] connections = null;
-
-    [ReadOnly, SerializeField] private float timeBetweenBuildings = 0f;
     public bool pauseBuilding = false;
 
     private BuildData CustomAddFunction() {

@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using Unity;
 
 static class RandomExtensions
 {
-    public static void Shuffle<T> (this Random rng, T[] array)
+    public static void Shuffle<T> (this System.Random rng, T[] array)
     {
         int n = array.Length;
         while (n > 1) 
