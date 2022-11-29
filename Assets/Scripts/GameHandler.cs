@@ -46,6 +46,9 @@ public class GameHandler : MonoBehaviour
         buildingAmount = buildings.Sum(group => group.buildElements.Length);
     }
 
+    public int suspiciousRounds = 0;
+    public bool check = true;
+
     public void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -54,6 +57,7 @@ public class GameHandler : MonoBehaviour
         }
         if (spawnCards)
             StartCoroutine(SpawnCards());
+        StartCoroutine(CheckCaught());
     }
 
     void Update()
@@ -102,6 +106,7 @@ public class GameHandler : MonoBehaviour
                 UIHandler.Instance.ShowCardsAndMenues();
                 PauseGame();
             }
+            check = true;
         }
     }
 
@@ -110,5 +115,25 @@ public class GameHandler : MonoBehaviour
         CardSystem.Instance.RemoveCards();
         if (isGameRunning)
             ResumeGame();
+    }
+
+    IEnumerator CheckCaught() {
+        while (isGameRunning) {
+            yield return new WaitForSeconds(cardInterval / 8);
+            if (check) {
+                SuspicousnessSystem sus = SuspicousnessSystem.Instance;
+
+                if (sus.Suspicousness >= sus.threshold) {
+                    suspiciousRounds++;
+                    if (suspiciousRounds >= sus.maxSuspiciousRounds) {
+                        LostGameCaught();
+                    }
+                }
+                else {
+                    suspiciousRounds = 0;
+                }
+                check = false;
+            }
+        }
     }
 }

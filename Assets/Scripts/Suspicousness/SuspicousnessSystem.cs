@@ -17,6 +17,9 @@ public class SuspicousnessSystem : MonoBehaviour
     private int suspiciosnessFrame = 30;
     public int[] suspiciosnessValues = {5,10,15,25};
 
+    public int threshold = 60;
+    public int maxSuspiciousRounds = 3;
+
 
     private void Awake()
     {
@@ -40,23 +43,5 @@ public class SuspicousnessSystem : MonoBehaviour
         {
             suspicousness = 0;
         }
-    }
-
-    public bool Caught() 
-    {
-        int catchPercentage = GetCatchPercentage();
-        int random = Random.Range(0, 100 + 1);
-
-        return catchPercentage == 0 ? false : random <= catchPercentage;
-    }
-
-    public int GetCatchPercentage() 
-    {
-        int min = suspicousness - suspiciosnessFrame > 0 ? suspicousness - suspiciosnessFrame : 0;
-        int max = suspicousness;
-
-        if (suspicousness == 100) min = 100;
-
-        return Random.Range(min, max + 1);
     }
 }

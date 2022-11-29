@@ -58,11 +58,6 @@ public class CardObject : ScriptableObject {
                     break;
             }
 
-            // check if caught
-            if (SuspicousnessSystem.Instance.Caught()){
-                GameHandler.Instance.LostGameCaught();
-            }
-
             // if not increase suspicion by defined value
             SuspicousnessSystem.Instance.IncreaseSuspicousness(SuspicousnessSystem.Instance.suspiciosnessValues[(int)suspicionIncrease]);
             float slowdownAmount = GameHandler.Instance.slowdownAmountValues[(int)slowdownAmountType];

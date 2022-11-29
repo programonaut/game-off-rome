@@ -135,6 +135,6 @@ public class City : SerializedMonoBehaviour {
         pauseBuilding = true;
         yield return new WaitForSeconds(time);
         pauseBuilding = false;
-        Hellmade.Sound.EazySoundManager.PlayMusic(standardMusic, 0.5f, true, true, 0.5f, 0.5f);
+        Hellmade.Sound.EazySoundManager.PlayMusic(standardMusic, 0.4f, true, true, 0.5f, 0.5f);
     }
 }
