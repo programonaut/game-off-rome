@@ -22,7 +22,7 @@ public class BuildElement : MonoBehaviour
         }
     }
 
-    private void Awake() {
+    public void WakeUp() {
         buildingTransform.localPosition = new Vector3(buildingTransform.localPosition.x, startY, buildingTransform.localPosition.z);
     }
 

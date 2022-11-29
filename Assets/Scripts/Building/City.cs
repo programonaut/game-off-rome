@@ -14,7 +14,8 @@ public class City : SerializedMonoBehaviour {
 
     [ListDrawerSettings(ShowIndexLabels = true, CustomAddFunction = "CustomAddFunction")]
     public BuildData[] buildings = new BuildData[1];
-        [ListDrawerSettings(ShowIndexLabels = true)]
+    
+    [ListDrawerSettings(ShowIndexLabels = true)]
     public BuildElement[][] temp = new BuildElement[0][];
     public BuildElement[][] temp2 = new BuildElement[0][];
     public bool randomize = true;
@@ -52,6 +53,12 @@ public class City : SerializedMonoBehaviour {
             Instance = this;
         } else {
             Destroy(gameObject);
+        }
+
+        var setBuildings = buildings.SelectMany(group => group.buildElements).ToList();
+        foreach (var item in setBuildings)
+        {
+            item.WakeUp();
         }
     }
 
