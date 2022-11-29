@@ -8,6 +8,7 @@ public class Screenshot : MonoBehaviour
 {
     [SerializeField]
     int screenshotCount = 1;
+    int sizeMultiplier = 4;
     [SerializeField]
     string path = "Assets/_Cards/screenshots/screenshot";
 
@@ -19,7 +20,7 @@ public class Screenshot : MonoBehaviour
     public void TakeScreenshot()
     {
         Debug.Log("Taking screenshot");
-        ScreenCapture.CaptureScreenshot($"{Directory.GetCurrentDirectory()}/{path}-{screenshotCount}.png");
+        ScreenCapture.CaptureScreenshot($"{Directory.GetCurrentDirectory()}/{path}-{screenshotCount}.png", sizeMultiplier);
         screenshotCount++;
     }
 

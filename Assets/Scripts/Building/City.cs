@@ -24,6 +24,9 @@ public class City : SerializedMonoBehaviour {
     [ReadOnly] public BuildElement[] builtBuildings = new BuildElement[0];
     public bool pauseBuilding = false;
 
+    public AudioClip standardMusic;
+    public AudioClip suspenseMusic;
+
     private BuildData CustomAddFunction() {
         BuildData data = new BuildData();
         data.name = "";
@@ -126,9 +129,12 @@ public class City : SerializedMonoBehaviour {
     public void PauseBuilding(float time) {
         StartCoroutine(WaitTime(time));
     }
+
     IEnumerator WaitTime(float time) {
+        Hellmade.Sound.EazySoundManager.PlayMusic(suspenseMusic, 0.5f, true, true, 0.5f, 0.5f);
         pauseBuilding = true;
         yield return new WaitForSeconds(time);
         pauseBuilding = false;
+        Hellmade.Sound.EazySoundManager.PlayMusic(standardMusic, 0.5f, true, true, 0.5f, 0.5f);
     }
 }

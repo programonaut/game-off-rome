@@ -60,8 +60,7 @@ public class CardObject : ScriptableObject {
 
             // check if caught
             if (SuspicousnessSystem.Instance.Caught()){
-                Debug.Log("Caught");
-                GameHandler.Instance.LostGame();
+                GameHandler.Instance.LostGameCaught();
             }
 
             // if not increase suspicion by defined value

@@ -64,7 +64,15 @@ public class GameHandler : MonoBehaviour
     public void LostGame() {
         if (isGameRunning) {
             isGameRunning = false;
-            Debug.Log("Finish city -> Game Over");
+            UIHandler.Instance.LoseCity();
+            PauseGame();
+        }
+    }
+
+    public void LostGameCaught() {
+        if (isGameRunning) {
+            isGameRunning = false;
+            UIHandler.Instance.LoseCaught();
             PauseGame();
         }
     }
@@ -72,7 +80,7 @@ public class GameHandler : MonoBehaviour
     private void WonGame() {
         if (isGameRunning) {
             isGameRunning = false;
-            Debug.Log("Time is over -> Game Won");
+            UIHandler.Instance.Win();
             PauseGame();
         }
     }
@@ -100,6 +108,7 @@ public class GameHandler : MonoBehaviour
     public void PlayCard() {
         UIHandler.Instance.HideCardsAndMenues();
         CardSystem.Instance.RemoveCards();
-        ResumeGame();
+        if (isGameRunning)
+            ResumeGame();
     }
 }
