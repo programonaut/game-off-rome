@@ -30,6 +30,7 @@ public class SuspicousnessSystem : MonoBehaviour
         {
             suspicousness = 100;
         }
+        UIHandler.Instance.UpdateSuspicion();
     }
 
     public void DecreaseSuspicousness(int amount)

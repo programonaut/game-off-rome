@@ -147,5 +147,5 @@ MonoBehaviour:
   startY: -18
   endY: 0
   buildingTransform: {fileID: 2706683105233785469}
-  buildTimeInSec: 8
-  destroyTimeInSec: 4
+  buildTimeInSec: 4
+  destroyTimeInSec: 2

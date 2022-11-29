@@ -49,8 +49,8 @@ MonoBehaviour:
   startY: -22
   endY: 0
   buildingTransform: {fileID: 5946338191841082895}
-  buildTimeInSec: 10
-  destroyTimeInSec: 1
+  buildTimeInSec: 5
+  destroyTimeInSec: 2
 --- !u!1001 &3820606407630208821
 PrefabInstance:
   m_ObjectHideFlags: 0

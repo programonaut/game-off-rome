@@ -35,7 +35,7 @@ public class GameHandler : MonoBehaviour
 
     public float[] slowdownAmountValues = {5,10,15,25};
 
-    [ReadOnly] public float cardInterval = 0;
+    public float cardInterval = 0;
     [Button("Set Card Interval")]
     public void CalculateCardInterval() { cardInterval = maxPlayTimeInSec / 12f; } // 12 = cards every 2 hours
 
@@ -90,13 +90,16 @@ public class GameHandler : MonoBehaviour
         while (isGameRunning) {
             yield return new WaitForSeconds(cardInterval);
             Debug.Log("Spawn card");
-            if (CardSystem.Instance.SpawnCards())
+            if (CardSystem.Instance.SpawnCards()) {
+                UIHandler.Instance.ShowCardsAndMenues();
                 PauseGame();
+            }
         }
     }
 
     public void PlayCard() {
-        ResumeGame();
+        UIHandler.Instance.HideCardsAndMenues();
         CardSystem.Instance.RemoveCards();
+        ResumeGame();
     }
 }

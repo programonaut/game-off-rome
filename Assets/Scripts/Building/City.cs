@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 
 public struct BuildData {
     public string name;
@@ -18,7 +19,7 @@ public class City : SerializedMonoBehaviour {
     public BuildElement[][] temp2 = new BuildElement[0][];
     public bool randomize = true;
 
-    public BuildElement[] buildQueue = new BuildElement[0];
+    public List<BuildElement> buildQueue = new List<BuildElement>();
     [ReadOnly] public BuildElement[] builtBuildings = new BuildElement[0];
     // [SerializeField] private Connections[] connections = null;
 
@@ -60,8 +61,8 @@ public class City : SerializedMonoBehaviour {
     private void Start() {
         if (randomize)
             ShuffleBuildings();        
-        buildQueue = buildings.SelectMany(group => group.buildElements).ToArray();
 
+        buildQueue = buildings.SelectMany(group => group.buildElements).ToList();
         StartCoroutine(BuildCity());
     }
 
@@ -77,7 +78,7 @@ public class City : SerializedMonoBehaviour {
 
 
     IEnumerator BuildCity() {
-        while (buildQueue.Length > 0) {
+        while (buildQueue.Count > 0) {
             if (!pauseBuilding) {
                 BuildElement building = buildQueue[0];
                 building.StartMoveBuilding();
@@ -85,7 +86,7 @@ public class City : SerializedMonoBehaviour {
 
                 yield return new WaitForSeconds(waitTime);
                 builtBuildings = builtBuildings.Append(building).ToArray();
-                buildQueue = buildQueue.Skip(1).ToArray();
+                buildQueue = buildQueue.Skip(1).ToList();
             }
             else {
                 yield return new WaitForSeconds(0.1f);
@@ -94,19 +95,28 @@ public class City : SerializedMonoBehaviour {
         GameHandler.Instance.LostGame();
     }
 
-    public void DestroyBuilding(BuildElement building) {
-        Debug.Log("Destroy building");
-        BuildElement buildElement = builtBuildings.FirstOrDefault(build => build.id == building.id);
-        if (buildElement != null) {
-            buildElement.DestroyBuilding();
-            builtBuildings = builtBuildings.Where(build => build.id != building.id).ToArray();
-            StartCoroutine(ScheduleRebuild(building));
+    public void DestroyBuildings(int id) {
+        // find all built buildings with id
+        // destroy them
+        BuildElement[] buildings = builtBuildings.Where(building => building.id == id).ToArray();
+        int randomIndex = Random.Range(3, buildQueue.Count);
+        foreach (var building in buildings) {
+            building.DestroyBuilding();
+        
+            StartCoroutine(ScheduleRebuild(building, randomIndex));
         }
+        // remove from built buildings
+        builtBuildings = builtBuildings.Where(build => build.id != id).ToArray();
     }
 
-    IEnumerator ScheduleRebuild(BuildElement building) {
+    IEnumerator ScheduleRebuild(BuildElement building, int index = -1) {
         yield return new WaitForSeconds(building.destroyTimeInSec);
-        buildQueue = buildQueue.Append(building).ToArray();
+        // add to build queue at index or the end
+        if (index != -1 && buildQueue.Count > index) {
+            buildQueue.Insert(index, building);
+        } else {
+            buildQueue = buildQueue.Append(building).ToList();
+        }
     }
 
     public void PauseBuilding(float time) {

@@ -61,9 +61,6 @@ public class CardSystem : MonoBehaviour
         cardComponent.card = cardObject;
         cardComponent.SetupCard();
         cardInstances.Add(cardComponent);
-
-        playedCards.Add(cardObject);
-        cards.Remove(cardObject);
     }
 
     public void RemoveCards() {
@@ -73,16 +70,13 @@ public class CardSystem : MonoBehaviour
         cardInstances = new List<Card>();
     }
 
-    private void RemoveCard(Card card) {
-        playedCards.Add(card.card);
-        cards.Remove(card.card);
-        cardInstances.Remove(card);
-        Destroy(card.gameObject);
+    public void RemoveCard(CardObject card) {
+        playedCards.Add(card);
+        cards.Remove(card);
     }
 
 
     [SerializeField] private List<CardData> cardNames = new List<CardData>();
-    [Button]
     private void CreatCardObjectsFromList() {
         int index = 1;
         foreach (var cardData in cardNames) {

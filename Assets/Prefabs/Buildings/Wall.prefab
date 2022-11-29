@@ -49,7 +49,7 @@ MonoBehaviour:
   startY: -8
   endY: 0
   buildingTransform: {fileID: 6081902186200097332}
-  buildTimeInSec: 1
+  buildTimeInSec: 0.5
   destroyTimeInSec: 0.5
 --- !u!1 &8938527241829833440
 GameObject:

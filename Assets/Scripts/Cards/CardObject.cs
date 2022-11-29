@@ -23,13 +23,10 @@ public class CardObject : ScriptableObject {
     public Sprite cardFrame;
 
     [Title("Card Action")]
-        [OnValueChanged("UpdateBuilding")]
     public ActionType type;
 
     [SerializeField] public bool needsToBeBuild = true;
-    [OnValueChanged("UpdateBuilding")]
-    public Building affectedBuilding;
-    [Tooltip("Can be automatically be assigned by dragging building")] public int buildingId;
+    public int buildingId;
 
     [OnValueChanged("UpdateSpawnPosition")]
     public Transform affectedTransform; // position to spawn the particle system (if empty use the building's transform)
@@ -41,25 +38,8 @@ public class CardObject : ScriptableObject {
     public SuspicousnessAmountType suspicionIncrease = SuspicousnessAmountType.Medium; // negative for decrease
     public bool goodCard = false;
 
-    private void UpdateBuilding() {
-        if (affectedBuilding != null) {
-            buildingId = affectedBuilding.id;
-            affectedTransform = affectedBuilding.transform;
-            spawnPosition = affectedTransform.position;
-            needsToBeBuild = true;
-        } else {
-            needsToBeBuild = false;
-        }
-    }
-
     private void UpdateSpawnPosition() {
-        if (affectedBuilding == null) {
-            spawnPosition = Vector3.zero;
-        }
-        else if (affectedTransform == null) {
-            spawnPosition = affectedBuilding.transform.position;
-        }
-        else {
+        if (affectedTransform != null) {
             spawnPosition = affectedTransform.position;
         }
     }
@@ -68,11 +48,10 @@ public class CardObject : ScriptableObject {
         Debug.Log("Executing action: " + name);
 
         if (!goodCard) {
-            Building building = FindBuilding();
             switch (type) {
                 case ActionType.Destroy:
                     SpawnEffect();
-                    City.Instance.DestroyBuilding(building);
+                    City.Instance.DestroyBuildings(buildingId);
                     break;
                 case ActionType.Other:
                     // affectedBuilding.Blockade();
@@ -100,29 +79,26 @@ public class CardObject : ScriptableObject {
         GameHandler.Instance.PlayCard();
     }
 
-    public Building FindBuilding() {
-        BuildData[] groupedCityBuildings = City.Instance.buildings;
-        foreach (BuildData group in groupedCityBuildings) {
-            foreach (BuildElement building in group.buildElements) {
-                if (building.id == buildingId) {
-                    return building.GetComponent<Building>();
-                }
-            }
-        }
-        return null;
-    }
-
     public bool CheckIfBuilt() {
         if(!needsToBeBuild)
             return true;
 
+        bool allBuilt = false;
         BuildElement[] builtBuildings = City.Instance.builtBuildings;
         foreach (BuildElement building in builtBuildings) {
-                if (building.id == buildingId) {
-                    return true;
-                }
+            if (building.id == buildingId) {
+                allBuilt = true;
+            }
         }
-        return false;
+
+        List<BuildElement> buildingQueue = City.Instance.buildQueue;
+        foreach (BuildElement building in buildingQueue) {
+            if (building.id == buildingId) {
+                allBuilt = false;
+            }
+        }
+
+        return allBuilt;
     }
 
     public void SpawnEffect() {
