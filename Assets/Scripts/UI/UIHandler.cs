@@ -53,10 +53,15 @@ public class UIHandler : MonoBehaviour
         // open menu on escape
         if (Input.GetKeyDown(KeyCode.Escape)) {
             if (menu.activeSelf)
+            {
                 GameHandler.Instance.ResumeGame();
+                ExitMenu();
+            }
             else
+            {
                 GameHandler.Instance.PauseGame();
-            OpenMenu();
+                OpenMenu();
+            }
         }
     }
 

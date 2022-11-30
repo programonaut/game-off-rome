@@ -93,7 +93,7 @@ public class CardSystem : MonoBehaviour
                 string path = $"Assets/_Cards/{index}_{cardData.name}.asset";
                 cards.Add(card);
 
-                AssetDatabase.CreateAsset(card, path);
+                // AssetDatabase.CreateAsset(card, path);
                 index++;
             }
         }
