@@ -28,7 +28,6 @@ public class GameSettings : MonoBehaviour
             Destroy(gameObject);
         }
         SetGameSettings();
-        gameObject.SetActive(false);
     }
 
     public void SetGameSettings() {
@@ -42,13 +41,15 @@ public class GameSettings : MonoBehaviour
         qualityDropdown.RefreshShownValue();
 
 
-        resolutions = Screen.resolutions;
+        resolutions = Screen.resolutions.GroupBy(r => new {r.width, r.height}).Select(r => r.First()).ToArray();
         resolutionDropdown.ClearOptions();
-        resolutionDropdown.AddOptions(new List<string>(resolutions.Select(r => $"{r.width}x{r.height}").Distinct().ToArray()));
+        resolutionDropdown.AddOptions(new List<string>(resolutions.Select(r => $"{r.width}x{r.height}").ToArray()));
 
         resolutionIndex = PlayerPrefs.GetInt("resolutionIndex", resolutions.Length - 1);
         resolutionDropdown.value = resolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        SetResolution(resolutionIndex);
 
         fullscreen = PlayerPrefs.GetInt("fullscreen", 1) == 1;
         SetFullscreen(fullscreen);

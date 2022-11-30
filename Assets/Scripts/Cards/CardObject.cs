@@ -65,9 +65,9 @@ public class CardObject : ScriptableObject {
                 City.Instance.PauseBuilding(slowdownAmount);
         }
         else {
-            SuspicousnessSystem.Instance.IncreaseSuspicousness(-SuspicousnessSystem.Instance.suspiciosnessValues[(int)suspicionIncrease]);
+            SuspicousnessSystem.Instance.IncreaseSuspicousness(-SuspicousnessSystem.Instance.suspiciosnessValues[(int)suspicionIncrease] / 2);
             Debug.Log($"{GameHandler.Instance.CurrentPlayTimeInSec}, {GameHandler.Instance.slowdownAmountValues[(int)slowdownAmountType]}");
-            GameHandler.Instance.CurrentPlayTimeInSec = GameHandler.Instance.CurrentPlayTimeInSec - GameHandler.Instance.slowdownAmountValues[(int)slowdownAmountType];
+            GameHandler.Instance.CurrentPlayTimeInSec = GameHandler.Instance.CurrentPlayTimeInSec - Mathf.FloorToInt(GameHandler.Instance.slowdownAmountValues[(int)slowdownAmountType] * 0.75f);
         }
 
         GameHandler.Instance.PlayCard();

@@ -74,3 +74,6 @@ crashlytics-build.properties
 *.old
 
 Builds
+External
+Plugins
+_Music

@@ -12,12 +12,8 @@ public struct BuildData {
 public class City : SerializedMonoBehaviour {
     public static City Instance;
 
-    [ListDrawerSettings(ShowIndexLabels = true, CustomAddFunction = "CustomAddFunction")]
+    [ListDrawerSettings(ListElementLabelName="name", CustomAddFunction = "CustomAddFunction")]
     public BuildData[] buildings = new BuildData[1];
-    
-    [ListDrawerSettings(ShowIndexLabels = true)]
-    public BuildElement[][] temp = new BuildElement[0][];
-    public BuildElement[][] temp2 = new BuildElement[0][];
     public bool randomize = true;
 
     public List<BuildElement> buildQueue = new List<BuildElement>();
@@ -32,23 +28,6 @@ public class City : SerializedMonoBehaviour {
         data.name = "";
         data.buildElements = new BuildElement[0];
         return data;
-    }
-
-    // [Button]
-    private void Rearrange() {
-        for (int i = 0; i < temp.Length; i++) {
-            for (int j = 0; j < buildings.Length; j++)
-            {
-                BuildData item = buildings[j];
-
-                if (item.name == i.ToString()) {
-                    item.buildElements = temp[i].Clone() as BuildElement[];
-                    Debug.Log("Found " + i.ToString());
-                }
-
-                buildings[j] = item;
-            }
-        }
     }
 
     private void Awake() {

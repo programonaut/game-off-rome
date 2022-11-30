@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 public class UIHandler : MonoBehaviour
 {
     public static UIHandler Instance;
 
     public TextMeshProUGUI timeText;
-    public TextMeshProUGUI buildingsLeftText;
 
     public Transform clockPointer;
 
@@ -17,7 +17,8 @@ public class UIHandler : MonoBehaviour
     public Gradient suspisionGradient;
 
     public Transform cardHolder;
-    public GameObject backgroundCardsAndMenues;
+    public GameObject backgroundCards;
+    public GameObject backgroundMenues;
     public GameObject menu;
     public GameObject settings;
     public GameObject loading;
@@ -26,6 +27,9 @@ public class UIHandler : MonoBehaviour
     public GameObject loseCity;
     public GameObject loseCaught;
 
+    [Title("Speed")]
+    public GameObject[] speedIcons;
+
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -33,7 +37,8 @@ public class UIHandler : MonoBehaviour
             Destroy(gameObject);
         }
 
-        backgroundCardsAndMenues.SetActive(false);
+        backgroundCards.SetActive(false);
+        backgroundMenues.SetActive(false);
         menu.SetActive(false);
         settings.SetActive(false);
         loading.SetActive(false);
@@ -41,12 +46,14 @@ public class UIHandler : MonoBehaviour
         loseCity.SetActive(false);
         loseCaught.SetActive(false);
     }
+
+    private void Start() {
+        SetSpeed();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (buildingsLeftText != null)
-            buildingsLeftText.text = $"{City.Instance.buildQueue.Count}";
-
         if (clockPointer != null)
             UpdateTime();
 
@@ -63,14 +70,6 @@ public class UIHandler : MonoBehaviour
                 OpenMenu();
             }
         }
-    }
-
-    public void ShowCardsAndMenues() {
-        backgroundCardsAndMenues.SetActive(true);
-    }
-
-    public void HideCardsAndMenues() {
-        backgroundCardsAndMenues.SetActive(false);
     }
 
     public void UpdateTime() {
@@ -103,25 +102,28 @@ public class UIHandler : MonoBehaviour
     }
 
     public void OpenSettings() {
-        ShowCardsAndMenues();
+        backgroundMenues.SetActive(true);
         menu.SetActive(false);
         settings.SetActive(true);
     }
 
     public void OpenMenu() {
-        ShowCardsAndMenues();
+        backgroundMenues.SetActive(true);
         menu.SetActive(true);
         settings.SetActive(false);
     }
 
     public void ExitMenu() {
-        HideCardsAndMenues();
-        GameHandler.Instance.ResumeGame();
+        backgroundMenues.SetActive(false);
+        if (!GameHandler.Instance.cardsActive)
+            GameHandler.Instance.ResumeGame();
         menu.SetActive(false);
         settings.SetActive(false);
     }
 
     public void LoadMenu() {
+        GameHandler.Instance.ResumeGame();
+        GameHandler.Instance.SetSpeed(1);
         StartCoroutine(LoadScene("Menu"));
     }
 
@@ -130,7 +132,7 @@ public class UIHandler : MonoBehaviour
 
         loading.GetComponent<Loading>().perc = 0;
 
-        ShowCardsAndMenues();
+        backgroundMenues.SetActive(true);
         menu.SetActive(false);
         settings.SetActive(false);
         loading.SetActive(true);
@@ -138,23 +140,42 @@ public class UIHandler : MonoBehaviour
         loseCity.SetActive(false);
         loseCaught.SetActive(false);
 
+
         while (!asyncLoad.isDone) {
             yield return null;
         }
     }
 
     public void Win() {
-        ShowCardsAndMenues();
+        backgroundMenues.SetActive(true);
         win.SetActive(true);
     }
 
     public void LoseCity() {
-        ShowCardsAndMenues();
+        backgroundMenues.SetActive(true);
         loseCity.SetActive(true);
     }
 
     public void LoseCaught() {
-        ShowCardsAndMenues();
+        backgroundMenues.SetActive(true);
         loseCaught.SetActive(true);
+    }
+
+    public void UpdateSpeed() {
+        int speed = GameHandler.Instance.speed;
+        speed = speed++ > speedIcons.Length - 1 ? 1 : speed++;
+        GameHandler.Instance.SetSpeed(speed);
+        SetSpeed();
+    }
+
+    public void SetSpeed() 
+    {
+        int speed = GameHandler.Instance.speed;
+        for (int i = 0; i < speedIcons.Length; i++) {
+            if (i != speed - 1)
+                speedIcons[i].SetActive(false);
+            else
+                speedIcons[i].SetActive(true);
+        }
     }
 }

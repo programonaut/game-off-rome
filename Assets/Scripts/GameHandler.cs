@@ -21,7 +21,7 @@ public class GameHandler : MonoBehaviour
     [ReadOnly] public float buildingBuildTimeSum = 0f;
     [ReadOnly] public int buildingAmount = 0;
 
-    private float currentPlayTimeInSec = 0;
+    public float currentPlayTimeInSec = 0;
     public float CurrentPlayTimeInSec {
         get {
             return currentPlayTimeInSec;
@@ -38,6 +38,8 @@ public class GameHandler : MonoBehaviour
     public float cardInterval = 0;
     [Button("Set Card Interval")]
     public void CalculateCardInterval() { cardInterval = maxPlayTimeInSec / 12f; } // 12 = cards every 2 hours
+    public bool cardsActive = false;
+    public int speed = 1;
 
     [Button]
     public void GetCityBuildTime() {
@@ -94,7 +96,12 @@ public class GameHandler : MonoBehaviour
     }
 
     public void ResumeGame() {
-        Time.timeScale = 1;
+        Time.timeScale = speed;
+    }
+
+    public void SetSpeed(int speed) {
+        this.speed = speed;
+        Time.timeScale = speed;
     }
 
     IEnumerator SpawnCards() {
@@ -103,7 +110,8 @@ public class GameHandler : MonoBehaviour
             yield return new WaitForSeconds(cardInterval);
             Debug.Log("Spawn card");
             if (CardSystem.Instance.SpawnCards()) {
-                UIHandler.Instance.ShowCardsAndMenues();
+                UIHandler.Instance.backgroundCards.SetActive(true);
+                cardsActive = true;
                 PauseGame();
             }
             check = true;
@@ -111,8 +119,9 @@ public class GameHandler : MonoBehaviour
     }
 
     public void PlayCard() {
-        UIHandler.Instance.HideCardsAndMenues();
+        UIHandler.Instance.backgroundCards.SetActive(false);
         CardSystem.Instance.RemoveCards();
+        cardsActive = false;
         if (isGameRunning)
             ResumeGame();
     }
@@ -125,7 +134,7 @@ public class GameHandler : MonoBehaviour
 
                 if (sus.Suspicousness >= sus.threshold) {
                     suspiciousRounds++;
-                    if (suspiciousRounds >= sus.maxSuspiciousRounds) {
+                    if (suspiciousRounds >= sus.maxSuspiciousRounds || sus.Suspicousness >= 100) {
                         LostGameCaught();
                     }
                 }

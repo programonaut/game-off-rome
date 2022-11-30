@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6480c3a11ef13143b71f9c64c7da64c, type: 3}
+  m_Name: Intro+
+  m_EditorClassIdentifier: 
+  Length: 0
+  OriginalSequence:
+    Line: []
+  EndSilenceDuration: 0
+  SequenceTracks: []
+  Quantized: 0
+  TargetBPM: 120
+  QuantizedSequence: []
+  RandomizeTrackColorsButton: 0

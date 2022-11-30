@@ -8,7 +8,7 @@ QualitySettings:
   m_QualitySettings:
   - serializedVersion: 2
     name: Low
-    pixelLightCount: 0
+    pixelLightCount: 2
     shadows: 0
     shadowResolution: 0
     shadowProjection: 1
@@ -21,7 +21,7 @@ QualitySettings:
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 0
-    antiAliasing: 0
+    antiAliasing: 2
     softParticles: 0
     softVegetation: 0
     realtimeReflectionProbes: 0
@@ -44,7 +44,7 @@ QualitySettings:
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Medium
-    pixelLightCount: 1
+    pixelLightCount: 4
     shadows: 1
     shadowResolution: 0
     shadowProjection: 1
@@ -57,7 +57,7 @@ QualitySettings:
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
-    antiAliasing: 0
+    antiAliasing: 4
     softParticles: 0
     softVegetation: 0
     realtimeReflectionProbes: 0
@@ -80,7 +80,7 @@ QualitySettings:
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: High
-    pixelLightCount: 4
+    pixelLightCount: 8
     shadows: 2
     shadowResolution: 2
     shadowProjection: 1
@@ -93,7 +93,7 @@ QualitySettings:
     skinWeights: 4
     textureQuality: 0
     anisotropicTextures: 2
-    antiAliasing: 2
+    antiAliasing: 8
     softParticles: 1
     softVegetation: 1
     realtimeReflectionProbes: 1
@@ -115,7 +115,7 @@ QualitySettings:
     customRenderPipeline: {fileID: 0}
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 1
+    Android: 2
     GameCoreScarlett: 2
     GameCoreXboxOne: 2
     Lumin: 2
@@ -123,7 +123,7 @@ QualitySettings:
     Nintendo Switch: 2
     PS4: 2
     PS5: 2
-    Server: 0
+    Server: 2
     Stadia: 2
     Standalone: 2
     WebGL: 1
