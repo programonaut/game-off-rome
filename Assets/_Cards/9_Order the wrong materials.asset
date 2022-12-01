@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c8d594f12d99d489883ba7237cb9a7, type: 3}
+  m_Name: 9_Order the wrong materials
+  m_EditorClassIdentifier: 
+  cardName: Order the wrong materials
+  cardDescription: '"Accidentally" order the wrong materials and stop new builds
+    till the correct resources arrive.'
+  cardBackground: {fileID: 21300000, guid: 7833ef997e43ac6488dddcd50dc92654, type: 3}
+  cardFrame: {fileID: 0}
+  type: 0
+  needsToBeBuild: 1
+  buildingId: 3
+  affectedTransform: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  effectParticleSystem: {fileID: 0}
+  slowdownAmountType: 1
+  suspicionIncrease: 2
+  goodCard: 0

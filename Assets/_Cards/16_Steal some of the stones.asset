@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c8d594f12d99d489883ba7237cb9a7, type: 3}
+  m_Name: 16_Steal some of the stones
+  m_EditorClassIdentifier: 
+  cardName: Steal some of the stones
+  cardDescription: Steal some of the stones. Enough to stop the building, but not
+    enough to make it visible on first sight.
+  cardBackground: {fileID: 21300000, guid: e8b0f1561142dcd47a4927fee074148f, type: 3}
+  cardFrame: {fileID: 0}
+  type: 0
+  needsToBeBuild: 1
+  affectedBuilding: {fileID: 0}
+  buildingId: 2
+  affectedTransform: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  effectParticleSystem: {fileID: 0}
+  slowdownAmountType: 1
+  suspicionIncrease: 0
+  goodCard: 0

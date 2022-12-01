@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c8d594f12d99d489883ba7237cb9a7, type: 3}
+  m_Name: 28_Throw away the ballot of an important voting
+  m_EditorClassIdentifier: 
+  cardName: Throw away the ballot of an important voting
+  cardDescription: Throw away the ballot of a really important voting deciding on
+    the building strategy of the city.
+  cardBackground: {fileID: 21300000, guid: defd1e97efc76aa45b5f70d17c4e80d6, type: 3}
+  cardFrame: {fileID: 0}
+  type: 0
+  needsToBeBuild: 1
+  buildingId: 30
+  affectedTransform: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  effectParticleSystem: {fileID: 0}
+  slowdownAmountType: 3
+  suspicionIncrease: 3
+  goodCard: 0

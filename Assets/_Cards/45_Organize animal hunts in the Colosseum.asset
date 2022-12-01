@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c8d594f12d99d489883ba7237cb9a7, type: 3}
+  m_Name: 45_Organize animal hunts in the Colosseum
+  m_EditorClassIdentifier: 
+  cardName: Organize animal hunts in the Colosseum
+  cardDescription: Organize animal hunts in the Colosseum to boost in happiness.
+  cardBackground: {fileID: 21300000, guid: 95080bc1e2162824497ff5dc1c561b0a, type: 3}
+  cardFrame: {fileID: 0}
+  type: 0
+  needsToBeBuild: 1
+  buildingId: 4
+  affectedTransform: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  effectParticleSystem: {fileID: 0}
+  slowdownAmountType: 1
+  suspicionIncrease: 1
+  goodCard: 1
