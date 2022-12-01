@@ -27,7 +27,10 @@ public class GameSettings : MonoBehaviour
         } else {
             Destroy(gameObject);
         }
-        SetGameSettings();
+    }
+
+    private void Start() {
+        GameSettings.Instance.SetGameSettings();
     }
 
     public void SetGameSettings() {
