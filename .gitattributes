@@ -1,54 +1,54 @@
 # 3D models
-*.3dm  diff=lfs merge=lfs -text
-*.3ds  diff=lfs merge=lfs -text
-*.blend  diff=lfs merge=lfs -text
-*.c4d  diff=lfs merge=lfs -text
-*.collada  diff=lfs merge=lfs -text
-*.dae  diff=lfs merge=lfs -text
-*.dxf  diff=lfs merge=lfs -text
-*.fbx  diff=lfs merge=lfs -text
-*.jas  diff=lfs merge=lfs -text
-*.lws  diff=lfs merge=lfs -text
-*.lxo  diff=lfs merge=lfs -text
-*.ma  diff=lfs merge=lfs -text
-*.max  diff=lfs merge=lfs -text
-*.mb  diff=lfs merge=lfs -text
-*.obj  diff=lfs merge=lfs -text
-*.ply  diff=lfs merge=lfs -text
-*.skp  diff=lfs merge=lfs -text
-*.stl  diff=lfs merge=lfs -text
-*.ztl  diff=lfs merge=lfs -text
+*.3dm  -text
+*.3ds  -text
+*.blend  -text
+*.c4d  -text
+*.collada  -text
+*.dae  -text
+*.dxf  -text
+*.fbx  -text
+*.jas  -text
+*.lws  -text
+*.lxo  -text
+*.ma  -text
+*.max  -text
+*.mb  -text
+*.obj  -text
+*.ply  -text
+*.skp  -text
+*.stl  -text
+*.ztl  -text
 # Audio
-*.aif  diff=lfs merge=lfs -text
-*.aiff  diff=lfs merge=lfs -text
-*.it  diff=lfs merge=lfs -text
-*.mod  diff=lfs merge=lfs -text
-*.mp3  diff=lfs merge=lfs -text
-*.ogg  diff=lfs merge=lfs -text
-*.s3m  diff=lfs merge=lfs -text
-*.wav  diff=lfs merge=lfs -text
-*.xm  diff=lfs merge=lfs -text
+*.aif  -text
+*.aiff  -text
+*.it  -text
+*.mod  -text
+*.mp3  -text
+*.ogg  -text
+*.s3m  -text
+*.wav  -text
+*.xm  -text
 # Fonts
-*.otf  diff=lfs merge=lfs -text
-*.ttf  diff=lfs merge=lfs -text
+*.otf  -text
+*.ttf  -text
 # Images
-*.bmp  diff=lfs merge=lfs -text
-*.exr  diff=lfs merge=lfs -text
-*.gif  diff=lfs merge=lfs -text
-*.hdr  diff=lfs merge=lfs -text
-*.iff  diff=lfs merge=lfs -text
-*.jpeg  diff=lfs merge=lfs -text
-*.jpg  diff=lfs merge=lfs -text
-*.pict  diff=lfs merge=lfs -text
-*.png  diff=lfs merge=lfs -text
-*.psd  diff=lfs merge=lfs -text
-*.tga  diff=lfs merge=lfs -text
-*.tif  diff=lfs merge=lfs -text
-*.tiff  diff=lfs merge=lfs -text
+*.bmp  -text
+*.exr  -text
+*.gif  -text
+*.hdr  -text
+*.iff  -text
+*.jpeg  -text
+*.jpg  -text
+*.pict  -text
+*.png  -text
+*.psd  -text
+*.tga  -text
+*.tif  -text
+*.tiff  -text
 # Collapse Unity-generated files on GitHub
 *.asset linguist-generated
 *.mat linguist-generated
 *.meta linguist-generated
 *.prefab linguist-generated
-*.unity  diff=lfs merge=lfs -text
+*.unity  -text
 . !text !filter !merge !diff
