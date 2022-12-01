@@ -7,5 +7,8 @@
 - Unity Editor Version 2021.3.13f1
 - Visual Studio Installer -> .NET-Desktopentwicklung
 - Visual Studio Installer -> Spieleentwicklung mit Unity
-- [Git LFS](https://git-lfs.github.com/) (Version Control for Large Files like 3D Models and more)
 
+## Credits
+Game created by Maximilian Kürschner  
+Game Icon created by DALLE-2  
+Font created by [ndiscovered](https://www.1001fonts.com/cinzel-font.html#license) 
